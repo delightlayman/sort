@@ -1,6 +1,6 @@
 #include "sort.h"
 
-#define arrsize 10000000
+#define arrsize 100000
 
 void test_seele(){
     int *arr=GenerateArray(arrsize);
@@ -36,9 +36,16 @@ void test_heap(){
     HeapSort(arr,arrsize);
     int end=clock();
     //PrintValues(arr,arrsize);
-    printf("\n%s time = %d","HeaSort",end-begin);
+    printf("\n%s time = %d","HeapSort",end-begin);
 }
-
+void test_bubble(){
+    int *arr=GenerateArray(arrsize);
+    int begin=clock();
+    BubbleSort(arr,arrsize);
+    int end=clock();
+    //PrintValues(arr,arrsize);
+    printf("\n%s time = %d","BubbleSort",end-begin);
+}
 
 int main(){
     // InsertSort(arr,10);
@@ -48,4 +55,5 @@ int main(){
     test_insert();
     test_select();
     test_heap();
+    test_bubble();
 }
