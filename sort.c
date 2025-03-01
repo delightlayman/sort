@@ -1,9 +1,19 @@
 #include "sort.h"
+//打印
 void PrintValues(int *arr,int size){
     for(int i=0;i<size;i++){
         printf("%d ",arr[i]);
     }
 
+}
+//生成随机数数组
+int * GenerateArray(int size){
+    srand(time(0));
+    int *arr=(int *)malloc(sizeof(int)*size);
+    for(int i=0;i<size;i++){
+        arr[i]=rand();
+    }
+    return arr;
 }
 //插入排序--数组--升序
 // void InsertSort(int *a,int size){
@@ -60,8 +70,6 @@ void SeeleSort_Respectively(int *a,int size){
             int temp=a[end+gap];
             //i属于[0,gap-1]，故而i-gap<0,这里取end>=0即可
             while(end>=i){//大于等于起始下标
-                int ac=a[end];
-
                 if(a[end]>temp){
                     a[end+gap]=a[end];
                     end-=gap;
@@ -84,7 +92,7 @@ void SeeleSort(int *a,int size){
 
         for(int i=0;i<size-gap;i++){//i可以取到size-1-gap
             int end=i;
-            int temp=a[end+1];
+            int temp=a[end+gap];
             //各组起始位置q属于[0,gap-1]，故而q-gap<0,这里取end>=0即可
             while(end>=0){
                 if(temp<a[end]){

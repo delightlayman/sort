@@ -1,13 +1,21 @@
 #include "sort.h"
 
+#define arrsize 10000
+
 void test_seele(){
-    
+    int *arr=GenerateArray(arrsize);
+
+    int begin=clock();
+    SeeleSort(arr,arrsize);
+    int end=clock();
+    PrintValues(arr,arrsize);
+    printf("\n%s time = %d","SeeleSort",end-begin);
 }
 
 
 int main(){
-    int arr[10]={1,12,3,16,11,4,6,2,19,0};
     // InsertSort(arr,10);
-    SeeleSort(arr,10);
-    PrintValues(arr,10);
+    // SeeleSort(arr,10);
+    // PrintValues(arr,10);
+    test_seele();
 }
