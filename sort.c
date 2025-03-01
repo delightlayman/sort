@@ -2,9 +2,12 @@
 //打印
 void PrintValues(int *arr,int size){
     for(int i=0;i<size;i++){
-        printf("%d ",arr[i]);
+        if(i%10==0)
+            printf("\n");
+        printf("%-6d ",arr[i]);
     }
-
+    if(size%10!=0)
+        printf("\n");
 }
 //生成随机数数组
 int * GenerateArray(int size){
@@ -15,6 +18,15 @@ int * GenerateArray(int size){
     }
     return arr;
 }
+
+
+//交换
+void swap(int* a,int* b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+
 //插入排序--数组--升序
 // void InsertSort(int *a,int size){
 //     for(int i=0;i<size-1;i++){
@@ -51,6 +63,7 @@ void InsertSort(int *a,int size){
         }
         a[cmp+1]=temp;  
     }
+
 }
 
 //希尔排序--升序
@@ -109,13 +122,80 @@ void SeeleSort(int *a,int size){
 
 
 
-//选择排序
-void SelectSort(int *a,int size);
-//堆排序
-void AdjustDown(int *a,int size,int root);
-void HeapSort(int *a,int size);
+//选择排序---升序
+//可以一次排一个最值，也可以是两个
+//遍历选出最值，交换到合适位置
+void SelectSort(int *a,int size){
+    int begin=0;
+    int end=size-1;
+    while(begin<end){
+        int maxi=begin,mini=begin;//最值下标,设置在每次循环的起始位置
+        for(int i=begin;i<=end;i++){
+            if(a[maxi]<a[i])
+                maxi=i;
+            
+            if(a[mini]>a[i])
+                mini=i;
+        }
+        //小优化---maxi==end&&mini==begin时 不用交换
+        swap(&a[begin],&a[mini]);//最小值换到开头
+        if(maxi==begin)//确保最大值交换到末尾
+            maxi=mini;
+        swap(&a[end],&a[maxi]);
+        begin++;
+        --end;
 
-//冒泡排序
-void BubbleSort(int *a,int size);
+    }
+
+}
+//堆排序--升序--建大堆
+void AdjustDown(int *a,int size,int root){
+    int parent=root;
+    int child=2*parent+1;
+    while(child<size){
+        //选大孩子
+        if(child+1<size&&a[child+1]>a[child])
+            ++child;
+        //大者向上调整
+        if(a[child]>a[parent]){
+            swap(&a[child],&a[parent]);
+            parent=child;
+            child=2*parent+1;
+        }
+        else{
+            break;
+        }    
+    }
+}
+void HeapBuilt(int *a,int size){
+    for(int i=(size-1-1)/2;i>=0;i--){
+        AdjustDown(a,size,i);
+    }
+}
+
+void HeapSort(int *a,int size){
+    HeapBuilt(a,size);
+    for(int i=size-1;i>0;i--){
+        swap(&a[0],&a[i]);
+        AdjustDown(a,i,0);
+    }
+}
+
+//冒泡排序--升序
+//相邻两数，交换大者到后方，遍历数值，循环操作，直至最大值换至最后
+void BubbleSort(int *a,int size){
+    for(int pos=size-1;pos>0;pos--){
+        //优化
+        int check=0;
+        for(int i=1;i<=pos;i++){
+            if(a[i-1]>a[i]){
+                swap(&a[i],&a[i-1]);
+                check=1;  
+            }                
+        }
+        if(!check)//check==0说明未发生交换，原数组本身就有序
+            break;
+    }
+}
 //快速排序
 void QuickSort(int *a,int size);

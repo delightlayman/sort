@@ -7,6 +7,8 @@
 void PrintValues(int *arr,int size);
 //生成随机数数组
 int * GenerateArray(int size);
+//交换
+void swap(int* a,int* b);
 
 //插入排序--数组--升序
 void InsertSort(int *a,int size);
@@ -18,6 +20,7 @@ void SeeleSort(int *a,int size);
 void SelectSort(int *a,int size);
 //堆排序
 void AdjustDown(int *a,int size,int root);
+void HeapBuilt(int *a,int size);
 void HeapSort(int *a,int size);
 
 //冒泡排序
