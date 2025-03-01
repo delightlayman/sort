@@ -96,14 +96,26 @@ void SeeleSort(int *a,int size){
             //各组起始位置q属于[0,gap-1]，故而q-gap<0,这里取end>=0即可
             while(end>=0){
                 if(temp<a[end]){
-                    a[end+1]=a[end];
+                    a[end+gap]=a[end];
                     end-=gap;
                 }
                 else
                     break;
             }
-            a[end+1]=temp;
+            a[end+gap]=temp;
         }
     }
 }
 
+
+
+//选择排序
+void SelectSort(int *a,int size);
+//堆排序
+void AdjustDown(int *a,int size,int root);
+void HeapSort(int *a,int size);
+
+//冒泡排序
+void BubbleSort(int *a,int size);
+//快速排序
+void QuickSort(int *a,int size);
