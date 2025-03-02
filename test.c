@@ -9,6 +9,7 @@ void test_seele(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d","SeeleSort",end-begin);
+    free(arr);
 }
 
 void test_insert(){
@@ -19,6 +20,8 @@ void test_insert(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d","InsertSort",end-begin);
+    free(arr);
+
 }
 
 void test_select(){
@@ -28,6 +31,8 @@ void test_select(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d","SelectSort",end-begin);
+    free(arr);
+
 }
 
 void test_heap(){
@@ -37,6 +42,8 @@ void test_heap(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d","HeapSort",end-begin);
+    free(arr);
+
 }
 void test_bubble(){
     int *arr=GenerateArray(arrsize);
@@ -45,6 +52,21 @@ void test_bubble(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d","BubbleSort",end-begin);
+    free(arr);
+
+}
+
+void test_quick(){
+    int *arr=GenerateArray(arrsize);
+    int begin=clock();
+    QuickSort(arr,0,arrsize-1);
+    int end=clock();
+    //PrintValues(arr,arrsize);
+    printf("\n%s time = %d,Ascending order:%d","QuickSort",end-begin,isAscendingOrder(arr,arrsize));
+    ;
+    free(arr);
+
+
 }
 
 int main(){
@@ -56,4 +78,5 @@ int main(){
     test_select();
     test_heap();
     test_bubble();
+    test_quick();
 }

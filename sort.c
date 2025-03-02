@@ -27,6 +27,19 @@ void swap(int* a,int* b){
     *b=temp;
 }
 
+
+//顺序判定---升序 ascending order 降序descending order
+bool isAscendingOrder(int *arr,int size){
+    bool check=1;
+    for(int i=0;i<size-1;i++){
+        if(arr[i]>arr[i+1]){
+            check=0;
+            break;
+        }
+    }
+    return check;
+
+}
 //插入排序--数组--升序
 // void InsertSort(int *a,int size){
 //     for(int i=0;i<size-1;i++){
@@ -197,5 +210,105 @@ void BubbleSort(int *a,int size){
             break;
     }
 }
-//快速排序
-void QuickSort(int *a,int size);
+//三数取中---优化：避免取到最值，提高效率
+int GetMidIndex(int *a,int begin,int end){
+    int mid=(begin+end)/2;
+    if(a[begin]<a[end]){
+        if(a[begin]>a[mid])
+            return begin;
+        else if(a[mid]<a[end])
+            return mid;
+        else        
+            return end;
+    }
+    else{//a[begin]>=a[end])
+        if(a[end]>a[mid])
+            return end;
+        else if(a[mid]<a[begin])
+            return mid;    
+        else    
+            return begin;
+    }
+}
+
+//左右指针法
+int QPartSort_LR(int *a,int begin,int end){
+    int key=GetMidIndex(a,begin,end);
+    swap(&a[end],&a[key]);
+    key=end;//确保最后大值换到末尾
+    while(begin<end){
+        //begin找大--
+        while(begin<end&&a[begin]<=a[key]){begin++;}
+        //end找小
+        while(begin<end&&a[end]>=a[key]){end--;}
+        swap(&a[begin],&a[end]);
+    }
+    //begin==end
+    swap(&a[begin],&a[key]);
+    return begin;
+}
+//挖坑法--交换
+int QPartSort_Pit_Swap(int *a,int begin,int end){
+    int key=GetMidIndex(a,begin,end);
+    swap(&a[key],&a[end]);
+    key=end;
+    while(begin<end){
+        while(begin<end&&a[begin]<=a[key]){begin++;}
+        swap(&a[begin],&a[key]);
+        key=begin;
+        while(begin<end&&a[end]>=a[key]){end--;}
+        swap(&a[end],&a[key]);
+        key=end;
+    }
+    return begin; 
+}
+//挖坑法--赋值
+int QPartSort_Pit_Assign(int *a,int begin,int end){
+    int key=GetMidIndex(a,begin,end);
+    swap(&a[end],&a[key]);
+    int pit=a[key];
+    while(begin<end){
+        while(begin<end&&a[begin]<=pit){begin++;}
+            a[end]=a[begin];
+        while(begin<end&&a[end]>=pit){end--;}
+            a[begin]=a[end];
+    } 
+    a[begin]=pit;
+    return begin;
+}
+
+//前后指针法
+int QPartSort_FB(int *a,int begin,int end){
+    int key=GetMidIndex(a,begin,end);
+    swap(&a[key],&a[end]);
+    int cur=begin;
+    int pre=cur-1;
+    while(cur<end){ //end位用于比较，遍历到end前
+        if(a[cur]<a[end]&&++pre!=cur){ 
+            swap(&a[cur],&a[pre]);    
+        }
+        cur++;
+    }
+    swap(&a[cur],&a[++pre]);
+    return pre;    
+}
+//快速排序---升序
+void QuickSort(int *a,int begin,int end){
+    if(begin>=end)
+        return;
+    //int div=QPartSort_LR(a,begin,end);
+    //int div=QPartSort_Pit_Swap(a,begin,end);
+    //int div=QPartSort_Pit_Assign(a,begin,end);
+    int div=QPartSort_FB(a,begin,end);
+
+    QuickSort(a,begin,div-1);
+    QuickSort(a,div+1,end);
+}
+
+
+//计数排序
+void CountSort(int *a,int size);
+//基数排序
+void BaseSort(int *a,int size);
+//桶排序
+void BocketSort(int *a,int size);
