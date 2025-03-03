@@ -63,10 +63,7 @@ void test_quick(){
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d,Ascending order:%d","QuickSort",end-begin,isAscendingOrder(arr,arrsize));
-    ;
     free(arr);
-
-
 }
 
 int main(){

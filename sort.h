@@ -39,8 +39,11 @@ int QPartSort_Pit_Swap(int *a,int begin,int end);
 int QPartSort_Pit_Assign(int *a,int begin,int end);
 //前后指针法
 int QPartSort_FB(int *a,int begin,int end);
-//快速排序
+//快速排序---递归
+void QuickSort_REC(int *a,int begin,int end);
+//快速排序---非递归
 void QuickSort(int *a,int begin,int end);
+
 
 
 //计数排序

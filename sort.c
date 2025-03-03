@@ -1,4 +1,5 @@
 #include "sort.h"
+#include "stack.h"
 //打印
 void PrintValues(int *arr,int size){
     for(int i=0;i<size;i++){
@@ -292,8 +293,22 @@ int QPartSort_FB(int *a,int begin,int end){
     swap(&a[cur],&a[++pre]);
     return pre;    
 }
-//快速排序---升序
+//快速排序---递归升序
+void QuickSort_REC(int *a,int begin,int end){
+    if(begin>=end)
+        return;
+    //int div=QPartSort_LR(a,begin,end);
+    //int div=QPartSort_Pit_Swap(a,begin,end);
+    //int div=QPartSort_Pit_Assign(a,begin,end);
+    int div=QPartSort_FB(a,begin,end);
+
+    QuickSort(a,begin,div-1);
+    QuickSort(a,div+1,end);
+}
 void QuickSort(int *a,int begin,int end){
+    Stack s;
+    StackInit(&s);
+    
     if(begin>=end)
         return;
     //int div=QPartSort_LR(a,begin,end);
