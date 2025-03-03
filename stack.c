@@ -2,7 +2,7 @@
 //打印
 void Printval(Stack* s){
     if(isEmptyStack(s)){
-        printf("stack未存储任何值");
+        printf("stack无存储");
         return;
     }
         
