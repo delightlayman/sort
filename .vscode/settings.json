@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "array": "c",
+        "deque": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "span": "c",
+        "xstring": "c",
+        "xutility": "c"
+    }
+}

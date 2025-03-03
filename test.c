@@ -1,6 +1,6 @@
 #include "sort.h"
 
-#define arrsize 100000
+#define arrsize 1000000
 
 void test_seele(){
     int *arr=GenerateArray(arrsize);
@@ -71,9 +71,9 @@ int main(){
     // SeeleSort(arr,10);
     // PrintValues(arr,10);
     test_seele();
-    test_insert();
-    test_select();
+    //test_insert();
+    //test_select();
     test_heap();
-    test_bubble();
+    //test_bubble();
     test_quick();
 }

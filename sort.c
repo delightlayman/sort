@@ -234,6 +234,9 @@ int GetMidIndex(int *a,int begin,int end){
 
 //左右指针法
 int QPartSort_LR(int *a,int begin,int end){
+    assert(a);
+    if(begin==end) return begin;
+
     int key=GetMidIndex(a,begin,end);
     swap(&a[end],&a[key]);
     key=end;//确保最后大值换到末尾
@@ -250,6 +253,9 @@ int QPartSort_LR(int *a,int begin,int end){
 }
 //挖坑法--交换
 int QPartSort_Pit_Swap(int *a,int begin,int end){
+    assert(a);
+    if(begin==end) return begin;
+
     int key=GetMidIndex(a,begin,end);
     swap(&a[key],&a[end]);
     key=end;
@@ -265,6 +271,9 @@ int QPartSort_Pit_Swap(int *a,int begin,int end){
 }
 //挖坑法--赋值
 int QPartSort_Pit_Assign(int *a,int begin,int end){
+    assert(a);
+    if(begin==end) return begin;
+
     int key=GetMidIndex(a,begin,end);
     swap(&a[end],&a[key]);
     int pit=a[key];
@@ -280,6 +289,9 @@ int QPartSort_Pit_Assign(int *a,int begin,int end){
 
 //前后指针法
 int QPartSort_FB(int *a,int begin,int end){
+    assert(a);
+    if(begin==end) return begin;
+
     int key=GetMidIndex(a,begin,end);
     swap(&a[key],&a[end]);
     int cur=begin;
@@ -305,19 +317,54 @@ void QuickSort_REC(int *a,int begin,int end){
     QuickSort(a,begin,div-1);
     QuickSort(a,div+1,end);
 }
+//快速排序---非递归升序---避免递归造成的栈溢出
+//1.stack存储  int (*SDataType)[2]
+//2.stack存储  int SDataType[2] 但需修改stacktop函数 因为不能返回数组
+//3.定义一个结构，仅存放两个数据
+//4.区间边界，先后入栈即可
+
 void QuickSort(int *a,int begin,int end){
+    /*  arr 是指针类型（typedef int (*arr)[2]），sizeof(arr) 计算的是指针本身的大小（4或8字节），
+        而非实际需要的 int[2] 数组大小（通常为 2 * sizeof(int) = 8 字节）。
+        后果：分配的内存不足以存储两个整数，写入 (*p)[0] 和 (*p)[1] 时会导致缓冲区溢出，引发未定义行为（如崩溃或数据损坏）*/
+    //SDataType arr=(SDataType)malloc(sizeof(SDataType));
+    SDataType arr=(SDataType)malloc(sizeof(int [2]));
+    (*arr)[0]=begin;
+    (*arr)[1]=end;
     Stack s;
     StackInit(&s);
-    
-    if(begin>=end)
-        return;
+    StackPush(&s,arr);
+    while(!isEmptyStack(&s)){
+        SDataType temp=StackTop(&s);
+        StackPop(&s);
+        int div=QPartSort_FB(a,(*temp)[0],(*temp)[1]);
+        /*  局部数组subarr1和subarr2的地址压入栈,其在循环迭代结束后失效，
+            栈中保存的指针变为悬垂指针，后续访问时数据已被破坏。*/
+        if((*temp)[0]<div-1){
+            SDataType subarr1=(SDataType)malloc(sizeof(int [2]));
+            (*subarr1)[0]=(*temp)[0];
+            (*subarr1)[1]=div-1;
+            StackPush(&s,subarr1);
+        } 
+        if(div+1<(*temp)[1]){
+            SDataType subarr2=(SDataType)malloc(sizeof(int [2]));
+            (*subarr2)[0]=div+1;
+            (*subarr2)[1]=(*temp)[1];
+            StackPush(&s,subarr2);
+        }
+        free(temp);
+    }
+    StackDEst(&s);
+
+    // if(begin>=end)
+    //     return;
     //int div=QPartSort_LR(a,begin,end);
     //int div=QPartSort_Pit_Swap(a,begin,end);
     //int div=QPartSort_Pit_Assign(a,begin,end);
-    int div=QPartSort_FB(a,begin,end);
+    // int div=QPartSort_FB(a,begin,end);
 
-    QuickSort(a,begin,div-1);
-    QuickSort(a,div+1,end);
+    // QuickSort(a,begin,div-1);
+    // QuickSort(a,div+1,end);
 }
 
 

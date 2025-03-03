@@ -29,7 +29,7 @@ bool isEmptyStack(Stack* s);
 bool isFullStack(Stack* s);
 
 //栈顶值
-int StackTop(Stack* s);
+SDataType StackTop(Stack* s);
 
 //栈大小
 int StackSize(Stack* s);

@@ -31,7 +31,7 @@ void StackDEst(Stack* s){
 //增删
 void StackPush(Stack* s,SDataType val){
     assert(s);
-    if(isFullStack){
+    if(isFullStack(s)){
         s->capacity*=2;
         SDataType* temp=(SDataType*)realloc(s->arr,sizeof(SDataType)*s->capacity);
         s->arr=temp;
@@ -56,7 +56,7 @@ bool isFullStack(Stack* s){
 }
 
 //栈顶值
-int StackTop(Stack* s){
+SDataType StackTop(Stack* s){
     assert(s);
     return s->arr[s->size-1];
 }
