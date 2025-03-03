@@ -59,7 +59,7 @@ void test_bubble(){
 void test_quick(){
     int *arr=GenerateArray(arrsize);
     int begin=clock();
-    QuickSort(arr,0,arrsize-1);
+    QuickSort_REC(arr,0,arrsize-1);
     int end=clock();
     //PrintValues(arr,arrsize);
     printf("\n%s time = %d,Ascending order:%d","QuickSort",end-begin,isAscendingOrder(arr,arrsize));
