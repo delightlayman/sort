@@ -117,17 +117,7 @@ void File_SortMerge(FILE* pre,FILE* cur,FILE* mfile){
 
 }
 
-int main(){
-    // InsertSort(arr,10);
-    // SeeleSort(arr,10);
-    // PrintValues(arr,10);
-    //test_seele();
-    //test_insert();
-    //test_select();
-    //test_heap();
-    //test_bubble();
-    //test_quick();
-    //test_merge();
+void CreateFile_SortAndDivid(){
     int *array=GenerateArray(arrsize);
     FILE* fin=fopen("data.txt","w");
     CheckFilePointer(fin,"data.txt");
@@ -157,16 +147,24 @@ int main(){
         count++;      
     }
     fclose(fout);
+    
+} 
 
+int main(){
+    // InsertSort(arr,10);
+    // SeeleSort(arr,10);
+    // PrintValues(arr,10);
+    //test_seele();
+    //test_insert();
+    //test_select();
+    //test_heap();
+    //test_bubble();
+    //test_quick();
+    //test_merge();
+    CreateFile_SortAndDivid();
     char filename[20];
     char mfilename[20];
-    //char newname[20];
 
-    //创建mfile
-    // strcpy(mfilename,"sub/0.txt");
-    // FILE* mfile=fopen(mfilename,"w");
-    // CheckFilePointer(mfile,mfilename);
-    
     //读取文件
     strcpy(filename,"sub\\data0.txt");
     FILE* pre=fopen(filename,"r");
