@@ -111,7 +111,7 @@ void File_SortMerge(FILE* pre,FILE* cur,FILE* mfile){
     }
     while(val2==1){
         fprintf(mfile,"%d ",num2);
-        val2=fscanf(cur,"%d",num2);
+        val2=fscanf(cur,"%d",&num2);
 
     }
 
@@ -199,7 +199,7 @@ int main(){
         //关闭文件指针后，该指针本身仍然存在，但它指向的文件流已被释放，此时直接使用该指针会导致未定义行为（如程序崩溃或数据错误）。
         //但如果在关闭后重新为其赋值新的有效文件指针，则可以继续使用该指针变量。
         pre=fopen(mfilename, "r");
-        CheckFilePointer(mfile,mfilename);
+        CheckFilePointer(pre,mfilename);
     }
     fclose(pre);
     return 0;
