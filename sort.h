@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>//time(),clock()
 #include <stdbool.h>
+#include <string.h>
 //打印
 void PrintValues(int *arr,int size);
 //生成随机数数组
@@ -43,7 +44,9 @@ int QPartSort_FB(int *a,int begin,int end);
 void QuickSort_REC(int *a,int begin,int end);
 //快速排序---非递归
 void QuickSort(int *a,int begin,int end);
-
+//归并排序---递归升序
+void MPartSort(int *a,int begin,int end,int *tmp);
+void MergeSort(int *a,int begin,int end);
 
 
 //计数排序

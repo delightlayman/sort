@@ -10,7 +10,7 @@ void PrintValues(int *arr,int size){
     if(size%10!=0)
         printf("\n");
 }
-//生成随机数数组
+//生成随机数数组 
 int * GenerateArray(int size){
     srand(time(0));
     int *arr=(int *)malloc(sizeof(int)*size);
@@ -321,12 +321,14 @@ void QuickSort_REC(int *a,int begin,int end){
 //1.stack存储  int (*SDataType)[2]
 //2.stack存储  int SDataType[2] 但需修改stacktop函数 因为不能返回数组
 //3.定义一个结构，仅存放两个数据
-//4.区间边界，先后入栈即可
+//4.区间边界，先后入栈即可，后先取出
 
 void QuickSort(int *a,int begin,int end){
-    /*  arr 是指针类型（typedef int (*arr)[2]），sizeof(arr) 计算的是指针本身的大小（4或8字节），
-        而非实际需要的 int[2] 数组大小（通常为 2 * sizeof(int) = 8 字节）。
-        后果：分配的内存不足以存储两个整数，写入 (*p)[0] 和 (*p)[1] 时会导致缓冲区溢出，引发未定义行为（如崩溃或数据损坏）*/
+    /*  
+    arr 是指针类型（typedef int (*arr)[2]），sizeof(arr) 计算的是指针本身的大小（4或8字节），
+    而非实际需要的 int[2] 数组大小（通常为 2 * sizeof(int) = 8 字节）。
+    后果：分配的内存不足以存储两个整数，写入 (*p)[0] 和 (*p)[1] 时会导致缓冲区溢出，引发未定义行为（如崩溃或数据损坏）
+    */
     //SDataType arr=(SDataType)malloc(sizeof(SDataType));
     SDataType arr=(SDataType)malloc(sizeof(int [2]));
     (*arr)[0]=begin;
@@ -338,8 +340,10 @@ void QuickSort(int *a,int begin,int end){
         SDataType temp=StackTop(&s);
         StackPop(&s);
         int div=QPartSort_FB(a,(*temp)[0],(*temp)[1]);
-        /*  局部数组subarr1和subarr2的地址压入栈,其在循环迭代结束后失效，
-            栈中保存的指针变为悬垂指针，后续访问时数据已被破坏。*/
+        /* 
+        局部数组subarr1和subarr2的地址压入栈,其在循环迭代结束后失效，
+        栈中保存的指针变为悬垂指针，后续访问时数据已被破坏。
+        */
         if((*temp)[0]<div-1){
             SDataType subarr1=(SDataType)malloc(sizeof(int [2]));
             (*subarr1)[0]=(*temp)[0];
@@ -367,6 +371,81 @@ void QuickSort(int *a,int begin,int end){
     // QuickSort(a,div+1,end);
 }
 
+
+
+//归并排序---递归升序
+//排序合并
+void Sort_Merge(int *a,int beg1,int end1,int beg2,int end2,int *tmp){
+    
+    int begin=beg1;
+    int end=end2;
+    int index=begin;//暂存begin
+    while(beg1<=end1&&beg2<=end2){
+        //小的先放
+        if(a[beg1]<a[beg2])
+            tmp[index++]=a[beg1++];
+        else    
+            tmp[index++]=a[beg2++];    
+    }
+    //不管谁先处理完，都遍历一下处理其后续
+    while(beg1<=end1){
+        tmp[index++]=a[beg1++];
+    }
+    while(beg2<=end2){
+        tmp[index++]=a[beg2++];    
+    }
+    // for(int i=begin;i<=end;i++)
+    //     a[i]=tmp[i];
+    memcpy(a+begin,tmp+begin,sizeof(int)*(end-begin+1));
+}
+//temp存储过程中排序合并的数组结果
+void M_Sort_REC(int *a,int begin,int end,int *tmp){
+    if(begin>=end)
+        return;
+    int mid=(begin+end)/2;
+    //分组：[begin,mid],[mid+1,end]    
+    //若无序---归并排序子数组
+    M_Sort_REC(a,begin,mid,tmp);
+    M_Sort_REC(a,mid+1,end,tmp);
+
+    int beg1=begin,end1=mid;
+    int beg2=mid+1,end2=end;
+    //排序并合并子数组
+    Sort_Merge(a,beg1,end1,beg2,end2,tmp);
+    
+}
+//归并排序---递归升序
+void MergeSort_REC(int *a,int begin,int end){
+    assert(a);
+    int* tmp=(int*)malloc(sizeof(int)*(end-begin+1));
+    M_Sort_REC(a,begin,end,tmp);
+    free(tmp);
+}
+
+//归并排序---非递归升序
+//相当于递归--归阶段--自底向上
+void MergeSort(int *a,int begin,int end){
+    assert(a);
+    int* tmp=(int*)malloc(sizeof(int)*(end-begin+1));
+    int len=1;//合并数组当前长度
+    while(len<end){
+        for(int i=0;i<=end;i+=2*len){
+            int beg1=i,end1=i+len-1;
+            int beg2=i+len,end2=i+2*len-1;
+            if(end1>end)//仅有一个数组 无法合并
+                break;
+            if(beg2>end)//仅有一个数组 无法合并
+                break;
+            if(end2>end)//两个数组，二数组仅部分有效，其余越界
+                end2=end;
+ 
+            Sort_Merge(a,beg1,end1,beg2,end2,tmp);
+        }
+        len*=2;
+    }
+
+    free(tmp);
+}
 
 //计数排序
 void CountSort(int *a,int size);
